@@ -1,0 +1,20 @@
+<html>
+  <body>
+        {% if not auth %}
+        <div class="container">
+              
+            <form action="/login/" method="post">
+                <h1>Login</h1>
+                <br>
+                <input type="text" placeholder="Username" name="username" value="{{request.form.username }}">
+                <br>
+                <br>
+                <input type="password" placeholder="Password" name="password" value="{{request.form.password }}">
+                <br>
+                <br>
+                <input name="submit_login" type="submit" value="Login">
+                <input name="submit_signup" type="submit" value="Signup">
+            </form>
+        {% endif %}
+  </body>
+</html>

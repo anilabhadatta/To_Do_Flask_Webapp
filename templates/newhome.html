@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title >Todo App</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+</head>
+
+
+<body style="background-color:rgb(233, 243, 236);">
+    <div style="margin-top: 50px;" class="ui container">
+        <h1 class="ui center aligned header" style="color: rgb(255, 1, 1);">To Do App</h1>
+        
+        
+        <form class="ui form" action="" method="POST" >
+            <div class="field">
+                <label>Todo Title</label>
+                <input type="text" name="notes" placeholder="Enter Note"><br>
+            </div>
+            
+            <input class="ui blue button" type="submit" name="add" value="Add" />
+        </form>
+        <hr>
+
+        {% for note in notes %}
+        <div class="ui segment" style="background-color:rgb(0, 247, 205);">
+            {% if condition != note.id %}
+            <p class="ui big header">{{note.notes}}</p>
+            {% endif %}
+
+
+            <form action="/update/{{note.id}}" class="ui form" method="POST" style="display: inline-block;" >
+                {% if condition != note.id %}
+                <input class="ui blue button" type="submit" name="update" value="Update" />
+                {% endif %}
+                
+                {% if condition == note.id %}
+                <div class="field">
+                    <input type="text" name="newnote" value="{{note.notes}}" name="newnote">
+                </div>
+                <input class="ui blue button" type="submit" name="save" style="margin:9px;" value="Save"/>
+                <input class="ui blue button" type="submit" name="cancel" value="Cancel" />
+                {% endif %}
+            </form>
+
+
+            <form action="/delete/{{note.id}}" method="POST" style="display: inline-block;" >    
+                <button class="ui red button" type="submit" name="delete">Delete</button>
+            </form>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
