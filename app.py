@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect
 # from flask_login import login_required, current_user
 from model import db, notes
+from datetime import datetime
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notes.db'
@@ -44,7 +46,10 @@ def create_table():
 def home():
     if request.method == "POST" and request.form.get('add'):
         if request.form.get('notes') != "":
-            notesdb = notes(request.form.get('notes'))
+            notesdb = notes(
+                notes = request.form.get('notes'),
+                dates = str(datetime.now())[:19],
+                )
             db.session.add(notesdb)
             db.session.commit()
     return render_template("newhome.html", notes=notes.query.all()[::-1], condition=0)
@@ -66,6 +71,11 @@ def update(id):
     if request.method == 'POST' and request.form.get('save'):
         note_to_update = notes.query.filter_by(id=id).first()
         note_to_update.notes = request.form.get('newnote')
+        note_to_update.dates = str(datetime.now())[:19]
+        db.session.commit()
+    if request.method == 'POST' and request.form.get('delete'):
+        note_to_delete = notes.query.get_or_404(id)
+        db.session.delete(note_to_delete)
         db.session.commit()
     return redirect('/')
 

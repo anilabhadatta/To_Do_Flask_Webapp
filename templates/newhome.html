@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,28 +30,35 @@
         {% for note in notes %}
         <div class="ui segment" style="background-color:rgb(0, 247, 205);">
             {% if condition != note.id %}
-            <p class="ui big header">{{note.notes}}</p>
+            <div>
+            <p class="ui big header" style="float: left;">{{note.notes}}</p>
+            <p class="ui small header" style="float: right;">{{note.dates}}</p>
+            <br>
+            </div>
             {% endif %}
 
-
-            <form action="/update/{{note.id}}" class="ui form" method="POST" style="display: inline-block;" >
+            <br>
+            
+            <form action="/update/{{note.id}}" class="ui form" method="POST" style="display: inline-block;">
                 {% if condition != note.id %}
                 <input class="ui blue button" type="submit" name="update" value="Update" />
                 {% endif %}
                 
                 {% if condition == note.id %}
-                <div class="field">
-                    <input type="text" name="newnote" value="{{note.notes}}" name="newnote">
+                <div class="field" >
+                    <input type="text" size="200" name="newnote" value="{{note.notes}}" name="newnote">
                 </div>
                 <input class="ui blue button" type="submit" name="save" style="margin:9px;" value="Save"/>
                 <input class="ui blue button" type="submit" name="cancel" value="Cancel" />
+                <input class="ui red button" type="submit" name="delete" value="Delete" />
                 {% endif %}
             </form>
 
-
+            {% if condition != note.id %}
             <form action="/delete/{{note.id}}" method="POST" style="display: inline-block;" >    
                 <button class="ui red button" type="submit" name="delete">Delete</button>
             </form>
+            {% endif %}
         </div>
         {% endfor %}
     </div>
